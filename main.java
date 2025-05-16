@@ -1,4 +1,3 @@
-package TP1;
 import java.awt.*;
 import javax.swing.JFrame;
 import java.awt.event.MouseAdapter;
