@@ -1,0 +1,3 @@
+# gitignore pour projet java
+.vscode/
+*.class
