@@ -213,7 +213,8 @@ public class JavaDraw extends JFrame {
             int largeur = (int) Math.abs(x2 - x1);
             int hauteur = (int) Math.abs(y2 - y1);
 
-            if (this.fillMode == 1) {
+            // Utiliser DrawOption.getFillMode() pour vérifier le mode de remplissage
+            if (DrawOption.getFillMode() == 1) {
                 g.fillRect((int) x1, (int) y1, largeur, hauteur);
             } else {
                 g.drawRect((int) x1, (int) y1, largeur, hauteur);
@@ -244,7 +245,9 @@ public class JavaDraw extends JFrame {
             Graphics g = getGraphics();
             // Utiliser la couleur partagée
             g.setColor(DrawOption.getFill_color());
-            if (this.fillMode == 1) {
+
+            // Utiliser DrawOption.getFillMode() pour vérifier le mode de remplissage
+            if (DrawOption.getFillMode() == 1) {
                 g.fillOval((int) x1, (int) y1, (int) (x2 - x1), (int) (y2 - y1));
             } else {
                 g.drawOval((int) x1, (int) y1, (int) (x2 - x1), (int) (y2 - y1));
@@ -323,8 +326,6 @@ public class JavaDraw extends JFrame {
             int y = m.getY();
             System.out.println("Clic détecté");
 
-            // d.affect(x, y);
-
             // Si on clique dans la zone de sélection de couleur
             if (y <= getHeight() - 50 && y >= getHeight() - 100) {
                 d.setSelectedColor(x);
@@ -352,10 +353,9 @@ public class JavaDraw extends JFrame {
             }
             // si on clique sur fill mode
             else if (x >= 300 && x <= 400 && y >= d.getHeight() - 50 && y <= d.getHeight()) {
-                d.fillMode = (d.fillMode + 1) % 2; // toggle fill mode
-                d.step = 0;
+                DrawOption.setFillMode((DrawOption.getFillMode() + 1) % 2); // toggle fill mode
                 System.out.println("Clic sur le bouton FILL MODE");
-                System.out.println("Fill mode value:" + getFillMode());
+                System.out.println("Fill mode value: " + DrawOption.getFillMode());
             }
             // Si on clique sur le bouton "Effacer"
             else if (x >= 400 && x <= 500 && y >= d.getHeight() - 50 && y <= d.getHeight()) {

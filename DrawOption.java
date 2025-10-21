@@ -9,6 +9,7 @@ public class DrawOption {
     private String description = "Description";
     private int active = 1; // 0 id disabled, 1 if enabled
     private static Color fill_color = Color.BLACK; // Couleur partagée par tous les composants
+    private static int fillMode = 0; // 0: pas de remplissage, 1: remplissage
 
 
     public DrawOption() {
@@ -30,7 +31,15 @@ public class DrawOption {
         fill_color = color;
     }
 
-    public void onClicked(int x, int y) {
+    public static int getFillMode() {
+        return fillMode;
+    }
+
+    public static void setFillMode(int mode) {
+        fillMode = mode;
+    }
+
+    public void onClicked(MouseEvent m, Graphics g) {
         System.out.println("Mouse clicked");
 
     }
@@ -41,12 +50,12 @@ public class DrawOption {
 
     }
 
-    public void onReleased(int x, int y) {
+    public void onReleased(MouseEvent m, Graphics g) {
         System.out.println("Mouse released");
 
     }
 
-    public void onDragged(int x, int y) {
+    public void onDragged(MouseEvent m, Graphics g) {
         System.out.println("Mouse dragged");
     }
 

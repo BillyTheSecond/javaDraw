@@ -42,7 +42,7 @@ public class Rectangle extends DrawOption {
         int largeur = Math.abs(x2 - x1);
         int hauteur = Math.abs(y2 - y1);
 
-        if (this.fillMode == 1) {
+        if (DrawOption.getFillMode() == 1) {
             g.fillRect(x1, y1, largeur, hauteur);
         } else {
             g.drawRect(x1, y1, largeur, hauteur);
