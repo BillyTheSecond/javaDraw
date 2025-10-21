@@ -1,9 +1,13 @@
 # Projet JavaDraw
+> Louison Bednarowicz
+> 3A ICY
+> INSA Hauts-de-France
 
-
+Ce projet n'est pas terminé, mais il est fonctionel.
+Dans l'idéal, je suis en traain de le restructurer complètement en utilisant des classes dédiées pour chaque outil et type de dessin.
 ---
 
-### temporaire - refactor
+### EN AMÉLIORATION - refactor
 
 > Note le temps de réfléchir à une meilleure façon de code ce logiciel en utilisant des classes.
 > **Objectif : **
