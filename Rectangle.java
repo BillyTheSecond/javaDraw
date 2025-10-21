@@ -14,6 +14,10 @@ public class Rectangle extends DrawOption {
 
     }
 
+    public Rectangle(Graphics g) {
+        
+    }
+
     @Override
     public void onReleased(int x, int y) {
         // si la coordonnée du 2nd point est au dessus du 1er point
@@ -32,7 +36,7 @@ public class Rectangle extends DrawOption {
         }
         Graphics g = new java.awt.image.BufferedImage(1, 1, java.awt.image.BufferedImage.TYPE_INT_ARGB).getGraphics();
         // set fill color
-        g.setColor(fill_color);
+        g.setColor(d.getFill_color());
 
         // valeur absolue
         int largeur = (int) Math.abs(x2 - x1);

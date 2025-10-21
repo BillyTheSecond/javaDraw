@@ -9,7 +9,13 @@ public class JavaDraw extends JFrame {
     int x, y;
 
     // states and settings
-    int mouseMode = 0;
+    int mouseMode = 4;
+    // 0 = curseur classique
+    // 1 = tracé de trait
+    // 2 = tracé de rectangle
+    // 3 = tracé de cercle
+    // 4 = usage du crayon
+    
     int step = 0; // etape du tracé
     int fillMode = 4; // mode de remplissage (0: pas de remplissage, 1: remplissage)
 
@@ -23,13 +29,8 @@ public class JavaDraw extends JFrame {
     Color[] colors = { Color.WHITE, Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.ORANGE, Color.MAGENTA,
             Color.CYAN };
 
-    public Color fill_color = colors[0]; // couleur par défaut = Première couleur du tableau
+    public Color fill_color = colors[3]; // couleur par défaut = Première couleur du tableau
 
-    // 0 = curseur classique
-    // 1 = tracé de trait
-    // 2 = tracé de rectangle
-    // 3 = tracé de cercle
-    // 4 = usage du crayon
 
     public JavaDraw() {
         addMouseListener(new Souris(this));
