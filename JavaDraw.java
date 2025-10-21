@@ -14,7 +14,7 @@ public class JavaDraw extends JFrame {
     // 2 = tracé de rectangle
     // 3 = tracé de cercle
     // 4 = usage du crayon
-    DrawOption drawOptions[] = { new DrawOption(), new Rectangle(), new Rectangle(), new Cercle() };
+    DrawOption drawOptions[] = { new DrawOption(), new Trait(), new Rectangle(), new Cercle() };
 
     int step = 0; // etape du tracé
     int fillMode = 4; // mode de remplissage (0: pas de remplissage, 1: remplissage)
@@ -172,22 +172,6 @@ public class JavaDraw extends JFrame {
         System.out.println("La couleur est définie sur " + DrawOption.getFill_color());
     }
 
-    public void handleTrait(int x, int y) {
-        if (step == 0) {
-            x1 = x;
-            y1 = y;
-            step++;
-        } else if (step == 1) {
-            x2 = x;
-            y2 = y;
-            step = 0;
-            Graphics g = getGraphics();
-            // Utiliser la couleur partagée
-            g.setColor(DrawOption.getFill_color());
-            g.drawLine((int) x1, (int) y1, (int) x2, (int) y2);
-        }
-    }
-
     public void handleCrayon(int x, int y) {
         Graphics g = getGraphics();
         if (g == null)
@@ -223,26 +207,6 @@ public class JavaDraw extends JFrame {
 
         Souris(JavaDraw a) {
             d = a;
-        }
-
-        public void mousePressedOrReleased(MouseEvent m) {
-
-            int x = m.getX();
-            int y = m.getY();
-            System.out.println("Clic détecté");
-
-            // d.affect(x, y);
-
-            // si on clique sur le zone de tracé
-
-            // si on est en mode tracé de trait
-            if (d.mouseMode == 1) {
-                // g.drawLine(x, y, x + 100, y + 100);
-                d.handleTrait(x, y);
-            }
-
-            // System.out.println("Etape du tracé : " + d.step);
-
         }
 
         // gestion des clicks simples sur les boutons de navigation
@@ -303,46 +267,27 @@ public class JavaDraw extends JFrame {
 
         // Gestion des clicks pour les dessins (pas les clicks sur les boutons)
         public void mousePressed(MouseEvent m) {
-            System.out.println("Mouse clicked");
-            mousePressedOrReleased(m);
+            System.out.println("Mouse pressed");
 
-            switch (d.getMouseMode()) {
-                case 2:
-                    d.drawOptions[d.getMouseMode()].onPressed(m, getGraphics());
-                case 3:
-                    d.drawOptions[d.getMouseMode()].onPressed(m, getGraphics());
-
-                    break;
-
-                default:
-                    break;
+            // Déléguer l'événement à l'option de dessin sélectionnée
+            if (d.getMouseMode() >= 1 && d.getMouseMode() <= 3) {
+                d.drawOptions[d.getMouseMode()].onPressed(m, getGraphics());
             }
         }
 
         public void mouseReleased(MouseEvent m) {
             System.out.println("Mouse released");
-            mousePressedOrReleased(m);
 
-            // relacher le stylo entre 2 tracés
+            // Dessiner avec le bon outil
+            if (d.getMouseMode() >= 1 && d.getMouseMode() <= 3) {
+                d.drawOptions[d.getMouseMode()].onReleased(m, getGraphics());
+            }
+
+            // Relâcher le crayon entre 2 tracés
             if (d.getMouseMode() == 4) {
-                // lever le crayon : remettre l'etat a 0 pour demarrer un nouveau trait au
-                // prochain press
                 d.step = 0;
-                System.out.println("Stylo relache");
+                System.out.println("Stylo relâché");
             }
-            switch (d.getMouseMode()) {
-                case 2:
-                    d.drawOptions[d.getMouseMode()].onReleased(m, getGraphics());
-                case 3:
-                    d.drawOptions[d.getMouseMode()].onReleased(m, getGraphics());
-
-                    break;
-
-                default:
-                    break;
-            }
-
-
         }
 
         public void mouseDragged(MouseEvent m) {

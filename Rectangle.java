@@ -7,9 +7,9 @@ public class Rectangle extends DrawOption {
 
     @Override
     public void onPressed(MouseEvent m, Graphics g) {
+        // Initialiser les coordonnées du premier point
         x1 = m.getX();
         y1 = m.getY();
-
     }
 
     public Rectangle() {
@@ -20,32 +20,24 @@ public class Rectangle extends DrawOption {
 
     @Override
     public void onReleased(MouseEvent m, Graphics g) {
-        int x = m.getX();
-        int y = m.getY();
+        // Récupérer les coordonnées du second point
+        x2 = m.getX();
+        y2 = m.getY();
 
-        if (y < y1) {
-            y2 = y1;
-            y1 = y;
-        } else {
-            y2 = y;
-        }
-        if (x < x1) {
-            x2 = x1;
-            x1 = x;
-        } else {
-            x2 = x;
-        }
+        // Calculer les coordonnées du rectangle
+        int startX = Math.min(x1, x2);
+        int startY = Math.min(y1, y2);
+        int width = Math.abs(x2 - x1);
+        int height = Math.abs(y2 - y1);
 
-        // Utiliser la couleur partagée
+        // Définir la couleur de remplissage
         g.setColor(DrawOption.getFill_color());
 
-        int largeur = Math.abs(x2 - x1);
-        int hauteur = Math.abs(y2 - y1);
-
+        // Dessiner le rectangle en fonction du mode de remplissage
         if (DrawOption.getFillMode() == 1) {
-            g.fillRect(x1, y1, largeur, hauteur);
+            g.fillRect(startX, startY, width, height);
         } else {
-            g.drawRect(x1, y1, largeur, hauteur);
+            g.drawRect(startX, startY, width, height);
         }
     }
 
