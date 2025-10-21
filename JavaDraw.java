@@ -15,6 +15,7 @@ public class JavaDraw extends JFrame {
     // 2 = tracé de rectangle
     // 3 = tracé de cercle
     // 4 = usage du crayon
+    DrawOption drawOptions[] = {new Rectangle(), new Rectangle(), new Rectangle(), new Rectangle()};
     
     int step = 0; // etape du tracé
     int fillMode = 4; // mode de remplissage (0: pas de remplissage, 1: remplissage)
@@ -28,6 +29,7 @@ public class JavaDraw extends JFrame {
     // tableau de couleurs
     Color[] colors = { Color.WHITE, Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.ORANGE, Color.MAGENTA,
             Color.CYAN };
+        
 
     public JavaDraw() {
         addMouseListener(new Souris(this));
@@ -188,41 +190,6 @@ public class JavaDraw extends JFrame {
         }
     }
 
-    public void handleRectangle(int x, int y) {
-        if (step == 0) {
-            x1 = x;
-            y1 = y;
-            step++;
-        } else if (step == 1) {
-            if (y < y1) {
-                y2 = y1;
-                y1 = y;
-            } else {
-                y2 = y;
-            }
-            if (x < x1) {
-                x2 = x1;
-                x1 = x;
-            } else {
-                x2 = x;
-            }
-            Graphics g = getGraphics();
-            // Utiliser la couleur partagée
-            g.setColor(DrawOption.getFill_color());
-
-            int largeur = (int) Math.abs(x2 - x1);
-            int hauteur = (int) Math.abs(y2 - y1);
-
-            // Utiliser DrawOption.getFillMode() pour vérifier le mode de remplissage
-            if (DrawOption.getFillMode() == 1) {
-                g.fillRect((int) x1, (int) y1, largeur, hauteur);
-            } else {
-                g.drawRect((int) x1, (int) y1, largeur, hauteur);
-            }
-            step = 0;
-        }
-    }
-
     public void handleCercle(int x, int y) {
         if (step == 0) {
             x1 = x;
@@ -307,9 +274,6 @@ public class JavaDraw extends JFrame {
             if (d.mouseMode == 1) {
                 // g.drawLine(x, y, x + 100, y + 100);
                 d.handleTrait(x, y);
-            } else if (d.mouseMode == 2) {
-                // g.drawRect(x, y, 50, 50);
-                d.handleRectangle(x, y);
             } else if (d.mouseMode == 3) {
                 // g.drawOval(x + 100, y + 100, 50, 50);
                 d.handleCercle(x, y);
@@ -380,17 +344,25 @@ public class JavaDraw extends JFrame {
         public void mousePressed(MouseEvent m) {
             System.out.println("Mouse clicked");
             mousePressedOrReleased(m);
+            if (d.getMouseMode() == 2) {
+            d.drawOptions[d.getMouseMode()].onPressed(m, getGraphics());
+            }
         }
 
         public void mouseReleased(MouseEvent m) {
             System.out.println("Mouse released");
             mousePressedOrReleased(m);
+            if (d.getMouseMode() == 2) {
+            d.drawOptions[d.getMouseMode()].onReleased(m, getGraphics());
+            }
             // relacher le stylo entre 2 tracés
-            if (d.mouseMode == 4) {
+            else if (d.getMouseMode() == 4) {
                 // lever le crayon : remettre l'etat a 0 pour demarrer un nouveau trait au prochain press
                 d.step = 0;
                 System.out.println("Stylo relache");
             }
+
+
 
 
         }

@@ -6,9 +6,9 @@ public class Rectangle extends DrawOption {
     private int x2, y2;
 
     @Override
-    public void onPressed(int x, int y) {
-        x1 = x;
-        y1 = y;
+    public void onPressed(MouseEvent m, Graphics g) {
+        x1 = m.getX();
+        y1 = m.getY();
 
     }
 
@@ -47,7 +47,6 @@ public class Rectangle extends DrawOption {
         } else {
             g.drawRect(x1, y1, largeur, hauteur);
         }
-        step = 0;
     }
 
 }
