@@ -5,13 +5,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
 
-public class main extends JFrame {
+public class JavaDraw extends JFrame {
     int x, y;
 
     // states and settings
     int mouseMode = 0;
     int step = 0; // etape du tracé
-    int fillMode = 0; // mode de remplissage (0: pas de remplissage, 1: remplissage)
+    int fillMode = 4; // mode de remplissage (0: pas de remplissage, 1: remplissage)
 
     double x1 = -1; // coordonnées du tracé (trait, rect, cercle)
     double y1 = -1;
@@ -23,7 +23,7 @@ public class main extends JFrame {
     Color[] colors = { Color.WHITE, Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.ORANGE, Color.MAGENTA,
             Color.CYAN };
 
-    Color fill_color = colors[0]; // couleur par défaut = Première couleur du tableau
+    public Color fill_color = colors[0]; // couleur par défaut = Première couleur du tableau
 
     // 0 = curseur classique
     // 1 = tracé de trait
@@ -31,7 +31,7 @@ public class main extends JFrame {
     // 3 = tracé de cercle
     // 4 = usage du crayon
 
-    public main() {
+    public JavaDraw() {
         addMouseListener(new Souris(this));
         addMouseMotionListener(new Souris(this));
         setSize(400, 600);
@@ -309,13 +309,13 @@ public class main extends JFrame {
     }
 
     public static void main(String[] args) {
-        main a = new main();
+        JavaDraw a = new JavaDraw();
     }
 
     class Souris extends MouseAdapter {
-        main d;
+        JavaDraw d;
 
-        Souris(main a) {
+        Souris(JavaDraw a) {
             d = a;
         }
 
