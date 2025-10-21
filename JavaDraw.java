@@ -39,6 +39,9 @@ public class JavaDraw extends JFrame {
         setVisible(true);
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(d.width / 2 - this.getWidth() / 2, d.height / 2 - this.getHeight() / 2);
+        // Fermer le programme si on ferme la fenêtre
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
     }
 
     // setteurs et getteurs
