@@ -2,6 +2,8 @@ import java.awt.*;
 import javax.swing.JFrame;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
+
 
 public class main extends JFrame {
     int x, y;
@@ -26,9 +28,12 @@ public class main extends JFrame {
     // 0 = curseur classique
     // 1 = tracé de trait
     // 2 = tracé de rectangle
+    // 3 = tracé de cercle
+    // 4 = usage du crayon
 
     public main() {
         addMouseListener(new Souris(this));
+        addMouseMotionListener(new Souris(this));
         setSize(400, 600);
         setVisible(true);
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
@@ -151,6 +156,7 @@ public class main extends JFrame {
         g.drawString("Cercle", 200, getHeight() - 20);
         g.drawString("Fill Mode", 300, getHeight() - 20);
         g.drawString("Effacer", 400, getHeight() - 20);
+        g.drawString("Crayon", 500, getHeight() - 20);
 
         // menu de choix des couleurs avec couleur de remlissage et couleur de contour
         // dans le même
@@ -251,6 +257,33 @@ public class main extends JFrame {
         }
     }
 
+
+    // crayon
+    public void handleCrayon(int x,int y) {
+        System.out.println("crayonnn");
+        Graphics g = getGraphics();
+        if (g == null) return;
+        g.setColor(fill_color);
+        
+        // initial point for the crayon stroke
+        if (this.step == 0) {
+            this.x = x;
+            this.y = y;
+            this.step = 1;
+            g.fillOval(x - 1, y - 1, 3, 3); // petit point initial
+        } else {
+            g.drawLine(this.x, this.y, x, y);
+            this.x = x;
+            this.y = y;
+        }
+        g.dispose();
+        // release pen
+        
+
+    }
+
+
+
     public void setSelectedColor(int x) {
         // reçoit la position du clic de la souris et set la couleur cliquée
         int colorCaseWidth = getWidth() / colors.length;
@@ -312,7 +345,7 @@ public class main extends JFrame {
 
         }
 
-        // gestion des clicks simples sur les boutons
+        // gestion des clicks simples sur les boutons de navigation
         public void mouseClicked(MouseEvent m) {
 
             int x = m.getX();
@@ -362,6 +395,14 @@ public class main extends JFrame {
                 g.clearRect(0, 0, d.getWidth(), d.getHeight());
                 d.repaint();
             }
+            // Si on clique sur le bouton "Crayon"
+            else if (x >= 500 && x <= 600 && y >= d.getHeight() - 50 && y <= d.getHeight()) {
+                d.mouseMode = 4;
+                d.step = 0;
+                System.out.println("Clic sur le bouton CRAYON");
+            }
+
+
         }
 
         // Gestion des clicks pour les dessins (pas les clicks sur les boutons)
@@ -373,6 +414,23 @@ public class main extends JFrame {
         public void mouseReleased(MouseEvent m) {
             System.out.println("Mouse released");
             mousePressedOrReleased(m);
+            // relacher le stylo entre 2 tracés
+            if (d.mouseMode == 4) {
+                // lever le crayon : remettre l'etat a 0 pour demarrer un nouveau trait au prochain press
+                d.step = 0;
+                System.out.println("Stylo relache");
+            }
+
+
+        }
+
+
+        public void mouseDragged(MouseEvent m) {
+            // System.out.println("draggued");
+            if (getMouseMode() == 4) {
+                handleCrayon(m.getX(),m.getY());
+
+            }
         }
 
     }
