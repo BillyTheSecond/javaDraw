@@ -117,7 +117,7 @@ public class main extends JFrame {
 
             // valeur absolue
             int largeur = (int) Math.abs(x2 - x1);
-            int hauteur = (int) Math.abs(y2 - y1);  
+            int hauteur = (int) Math.abs(y2 - y1);
 
             if (this.fillMode == 1) {
                 g.fillRect((int) x1, (int) y1, largeur, hauteur);
@@ -196,7 +196,8 @@ public class main extends JFrame {
             d = a;
         }
 
-        public void mouseClicked(MouseEvent m) {
+        public void mousePressedOrReleased(MouseEvent m) {
+
             int x = m.getX();
             int y = m.getY();
             System.out.println("Clic détecté");
@@ -261,5 +262,16 @@ public class main extends JFrame {
             System.out.println("Etape du tracé : " + d.step);
 
         }
+
+        public void mousePressed(MouseEvent m) {
+            System.out.println("Mouse clicked");
+            mousePressedOrReleased(m);
+        }
+
+        public void mouseReleased(MouseEvent m) {
+            System.out.println("Mouse released");
+            mousePressedOrReleased(m);
+        }
+
     }
 }
