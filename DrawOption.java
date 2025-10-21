@@ -1,5 +1,4 @@
 import java.awt.*;
-import javax.swing.JFrame;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -9,6 +8,7 @@ public class DrawOption {
     private String name = "Label";
     private String description = "Description";
     private int active = 1; // 0 id disabled, 1 if enabled
+    private static Color fill_color = Color.BLACK; // Couleur partagée par tous les composants
 
 
     public DrawOption() {
@@ -22,12 +22,20 @@ public class DrawOption {
         this.active = active;
     }
 
+    public static Color getFill_color() {
+        return fill_color;
+    }
+
+    public static void setFill_color(Color color) {
+        fill_color = color;
+    }
+
     public void onClicked(int x, int y) {
         System.out.println("Mouse clicked");
 
     }
 
-    public void onPressed(int x, int y) {
+    public void onPressed(MouseEvent m, Graphics g) {
         System.out.println("Mouse pressed");
 
 

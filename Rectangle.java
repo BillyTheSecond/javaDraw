@@ -1,6 +1,4 @@
 import java.awt.*;
-import javax.swing.JFrame;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class Rectangle extends DrawOption {
@@ -14,14 +12,17 @@ public class Rectangle extends DrawOption {
 
     }
 
-    public Rectangle(Graphics g) {
-        
+    public Rectangle() {
+        super("Rectangle", "Dessine un rectangle", 1);
+
+
     }
 
     @Override
-    public void onReleased(int x, int y) {
-        // si la coordonnée du 2nd point est au dessus du 1er point
-        // on inverse les coordonnées
+    public void onReleased(MouseEvent m, Graphics g) {
+        int x = m.getX();
+        int y = m.getY();
+
         if (y < y1) {
             y2 = y1;
             y1 = y;
@@ -34,23 +35,19 @@ public class Rectangle extends DrawOption {
         } else {
             x2 = x;
         }
-        Graphics g = new java.awt.image.BufferedImage(1, 1, java.awt.image.BufferedImage.TYPE_INT_ARGB).getGraphics();
-        // set fill color
-        g.setColor(d.getFill_color());
 
-        // valeur absolue
-        int largeur = (int) Math.abs(x2 - x1);
-        int hauteur = (int) Math.abs(y2 - y1);
+        // Utiliser la couleur partagée
+        g.setColor(DrawOption.getFill_color());
+
+        int largeur = Math.abs(x2 - x1);
+        int hauteur = Math.abs(y2 - y1);
 
         if (this.fillMode == 1) {
-            g.fillRect((int) x1, (int) y1, largeur, hauteur);
+            g.fillRect(x1, y1, largeur, hauteur);
         } else {
-            g.drawRect((int) x1, (int) y1, largeur, hauteur);
-
+            g.drawRect(x1, y1, largeur, hauteur);
         }
         step = 0;
-        // this.mouseMode = 0; // revenir au mode classique
-
     }
 
 }

@@ -29,9 +29,6 @@ public class JavaDraw extends JFrame {
     Color[] colors = { Color.WHITE, Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.ORANGE, Color.MAGENTA,
             Color.CYAN };
 
-    public Color fill_color = colors[3]; // couleur par défaut = Première couleur du tableau
-
-
     public JavaDraw() {
         addMouseListener(new Souris(this));
         addMouseMotionListener(new Souris(this));
@@ -126,14 +123,6 @@ public class JavaDraw extends JFrame {
         this.colors = colors;
     }
 
-    public Color getFill_color() {
-        return this.fill_color;
-    }
-
-    public void setFill_color(Color fill_color) {
-        this.fill_color = fill_color;
-    }
-
     public void paint(Graphics g) {
         super.paint(g);
         // g.drawLine(x, y, x + 100, y + 100);
@@ -174,6 +163,15 @@ public class JavaDraw extends JFrame {
 
     }
 
+    public void setSelectedColor(int x) {
+        int colorCaseWidth = getWidth() / colors.length;
+        int colorIndex = x / colorCaseWidth;
+
+        // Mettre à jour la couleur partagée
+        DrawOption.setFill_color(colors[colorIndex]);
+        System.out.println("La couleur est définie sur " + DrawOption.getFill_color());
+    }
+
     public void handleTrait(int x, int y) {
         if (step == 0) {
             x1 = x;
@@ -184,10 +182,9 @@ public class JavaDraw extends JFrame {
             y2 = y;
             step = 0;
             Graphics g = getGraphics();
-            // set line color
-            g.setColor(fill_color);
+            // Utiliser la couleur partagée
+            g.setColor(DrawOption.getFill_color());
             g.drawLine((int) x1, (int) y1, (int) x2, (int) y2);
-            // this.mouseMode = 0; // revenir au mode classique
         }
     }
 
@@ -197,8 +194,6 @@ public class JavaDraw extends JFrame {
             y1 = y;
             step++;
         } else if (step == 1) {
-            // si la coordonnée du 2nd point est au dessus du 1er point
-            // on inverse les coordonnées
             if (y < y1) {
                 y2 = y1;
                 y1 = y;
@@ -212,10 +207,9 @@ public class JavaDraw extends JFrame {
                 x2 = x;
             }
             Graphics g = getGraphics();
-            // set fill color
-            g.setColor(fill_color);
+            // Utiliser la couleur partagée
+            g.setColor(DrawOption.getFill_color());
 
-            // valeur absolue
             int largeur = (int) Math.abs(x2 - x1);
             int hauteur = (int) Math.abs(y2 - y1);
 
@@ -223,10 +217,8 @@ public class JavaDraw extends JFrame {
                 g.fillRect((int) x1, (int) y1, largeur, hauteur);
             } else {
                 g.drawRect((int) x1, (int) y1, largeur, hauteur);
-
             }
             step = 0;
-            // this.mouseMode = 0; // revenir au mode classique
         }
     }
 
@@ -236,8 +228,6 @@ public class JavaDraw extends JFrame {
             y1 = y;
             step++;
         } else if (step == 1) {
-            // si la coordonnée du 2nd point est au dessus du 1er point
-            // on inverse les coordonnées
             if (y < y1) {
                 y2 = y1;
                 y1 = y;
@@ -252,59 +242,36 @@ public class JavaDraw extends JFrame {
             }
             step = 0;
             Graphics g = getGraphics();
-            g.setColor(fill_color);
+            // Utiliser la couleur partagée
+            g.setColor(DrawOption.getFill_color());
             if (this.fillMode == 1) {
                 g.fillOval((int) x1, (int) y1, (int) (x2 - x1), (int) (y2 - y1));
-            } else
+            } else {
                 g.drawOval((int) x1, (int) y1, (int) (x2 - x1), (int) (y2 - y1));
-            // this.mouseMode = 0; // revenir au mode classique
+            }
         }
     }
 
-
-    // crayon
-    public void handleCrayon(int x,int y) {
-        System.out.println("crayonnn");
+    public void handleCrayon(int x, int y) {
         Graphics g = getGraphics();
         if (g == null) return;
-        g.setColor(fill_color);
-        
-        // initial point for the crayon stroke
+        // Utiliser la couleur partagée
+        g.setColor(DrawOption.getFill_color());
+
         if (this.step == 0) {
             this.x = x;
             this.y = y;
             this.step = 1;
-            g.fillOval(x - 1, y - 1, 3, 3); // petit point initial
+            g.fillOval(x - 1, y - 1, 3, 3);
         } else {
             g.drawLine(this.x, this.y, x, y);
             this.x = x;
             this.y = y;
         }
         g.dispose();
-        // release pen
-        
-
     }
 
 
-
-    public void setSelectedColor(int x) {
-        // reçoit la position du clic de la souris et set la couleur cliquée
-        int colorCaseWidth = getWidth() / colors.length;
-
-        // trouver le numéro de la couleur cliquée
-        int colorIndex = x / colorCaseWidth;
-        // TODO: Vérifier comment se fait l'arondissement.
-        // Il faudrait qu'il se fasse toujours vers le bas.
-        // set la couleur de remplissage
-        fill_color = colors[colorIndex];
-        System.out.println("La couleur est définir sur " + fill_color);
-
-        // définir la couleur de remplissage pour tous les tracés
-        Graphics g = getGraphics();
-        g.setColor(fill_color);
-
-    }
 
     public void affect(int x, int y) {
         this.x = x;
