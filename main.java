@@ -35,6 +35,96 @@ public class main extends JFrame {
         this.setLocation(d.width / 2 - this.getWidth() / 2, d.height / 2 - this.getHeight() / 2);
     }
 
+    // setteurs et getteurs
+
+    public int getX() {
+        return this.x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return this.y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public int getMouseMode() {
+        return this.mouseMode;
+    }
+
+    public void setMouseMode(int mouseMode) {
+        this.mouseMode = mouseMode;
+    }
+
+    public int getStep() {
+        return this.step;
+    }
+
+    public void setStep(int step) {
+        this.step = step;
+    }
+
+    public int getFillMode() {
+        return this.fillMode;
+    }
+
+    public void setFillMode(int fillMode) {
+        this.fillMode = fillMode;
+    }
+
+    public double getX1() {
+        return this.x1;
+    }
+
+    public void setX1(double x1) {
+        this.x1 = x1;
+    }
+
+    public double getY1() {
+        return this.y1;
+    }
+
+    public void setY1(double y1) {
+        this.y1 = y1;
+    }
+
+    public double getX2() {
+        return this.x2;
+    }
+
+    public void setX2(double x2) {
+        this.x2 = x2;
+    }
+
+    public double getY2() {
+        return this.y2;
+    }
+
+    public void setY2(double y2) {
+        this.y2 = y2;
+    }
+
+    public Color[] getColors() {
+        return this.colors;
+    }
+
+    public void setColors(Color[] colors) {
+        this.colors = colors;
+    }
+
+    public Color getFill_color() {
+        return this.fill_color;
+    }
+
+    public void setFill_color(Color fill_color) {
+        this.fill_color = fill_color;
+    }
+
     public void paint(Graphics g) {
         super.paint(g);
         // g.drawLine(x, y, x + 100, y + 100);
@@ -204,6 +294,33 @@ public class main extends JFrame {
 
             // d.affect(x, y);
 
+            // si on clique sur le zone de tracé
+
+            // si on est en mode tracé de trait
+            if (d.mouseMode == 1) {
+                // g.drawLine(x, y, x + 100, y + 100);
+                d.handleTrait(x, y);
+            } else if (d.mouseMode == 2) {
+                // g.drawRect(x, y, 50, 50);
+                d.handleRectangle(x, y);
+            } else if (d.mouseMode == 3) {
+                // g.drawOval(x + 100, y + 100, 50, 50);
+                d.handleCercle(x, y);
+            }
+
+            // System.out.println("Etape du tracé : " + d.step);
+
+        }
+
+        // gestion des clicks simples sur les boutons
+        public void mouseClicked(MouseEvent m) {
+
+            int x = m.getX();
+            int y = m.getY();
+            System.out.println("Clic détecté");
+
+            // d.affect(x, y);
+
             // Si on clique dans la zone de sélection de couleur
             if (y <= getHeight() - 50 && y >= getHeight() - 100) {
                 d.setSelectedColor(x);
@@ -234,6 +351,7 @@ public class main extends JFrame {
                 d.fillMode = (d.fillMode + 1) % 2; // toggle fill mode
                 d.step = 0;
                 System.out.println("Clic sur le bouton FILL MODE");
+                System.out.println("Fill mode value:" + getFillMode());
             }
             // Si on clique sur le bouton "Effacer"
             else if (x >= 400 && x <= 500 && y >= d.getHeight() - 50 && y <= d.getHeight()) {
@@ -244,25 +362,9 @@ public class main extends JFrame {
                 g.clearRect(0, 0, d.getWidth(), d.getHeight());
                 d.repaint();
             }
-
-            // si on clique sur le zone de tracé
-
-            // si on est en mode tracé de trait
-            else if (d.mouseMode == 1) {
-                // g.drawLine(x, y, x + 100, y + 100);
-                d.handleTrait(x, y);
-            } else if (d.mouseMode == 2) {
-                // g.drawRect(x, y, 50, 50);
-                d.handleRectangle(x, y);
-            } else if (d.mouseMode == 3) {
-                // g.drawOval(x + 100, y + 100, 50, 50);
-                d.handleCercle(x, y);
-            }
-
-            System.out.println("Etape du tracé : " + d.step);
-
         }
 
+        // Gestion des clicks pour les dessins (pas les clicks sur les boutons)
         public void mousePressed(MouseEvent m) {
             System.out.println("Mouse clicked");
             mousePressedOrReleased(m);
